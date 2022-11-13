@@ -1,11 +1,9 @@
 package PageObject;
 
-//import org.junit.Assert;
 import org.junit.Assert;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
-
 
 public class OrderPage {
     private WebDriver driver;
@@ -26,12 +24,16 @@ public class OrderPage {
     private final By addressInput = By.xpath(".//input[@placeholder = '* Адрес: куда привезти заказ']");
     private final By metroInput = By.xpath(".//input[@placeholder = '* Станция метро']");
     private final By phoneNumberInput = By.xpath(".//input[@placeholder = '* Телефон: на него позвонит курьер']");
-
     private final By continueButton = By.xpath("//button[contains(@class, 'Button_Button__ra12g Button_Middle__1CSJM')]");
     private final By orderTimeInput = By.xpath(".//input[@placeholder = '* Когда привезти самокат']");
-    private final By rentalPeriodChoice = By.xpath(".//div[@class='Dropdown-root']");
+    private final By rentalPeriodChoice = By.xpath(".//div[text() = '* Срок аренды']");
     private final By rentalPeriodOneDay = By.xpath(".//div[text() = 'сутки']");
     private final By rentalPeriodTwoDays = By.xpath(".//div[text() = 'двое суток']");
+    private final By rentalPeriodThreeDays = By.xpath(".//div[text() = 'трое суток']");
+    private final By rentalPeriodFourDays = By.xpath(".//div[text() = 'четверо суток']");
+    private final By rentalPeriodFiveDays = By.xpath(".//div[text() = 'пятеро суток']");
+    private final By rentalPeriodSixDays = By.xpath(".//div[text() = 'шестеро суток']");
+    private final By rentalPeriodSevenDays = By.xpath(".//div[text() = 'семеро суток']");
     private final By colorBlack = By.id("black");
     private final By colorGrey = By.id("grey");
     private final By commentInput = By.xpath(".//input[@placeholder = 'Комментарий для курьера']");
@@ -40,20 +42,17 @@ public class OrderPage {
 
     private final By successOrder = By.xpath(".//div[text() = 'Заказ оформлен']");
 
-
-
-    //метод нажимающий на верхнюю кнопку "заказать"
-    public void clickTopOrderButton(){
-        driver.findElement(topOrderButton).click();
-    }
-
-    //метод нажимающий на нижнюю кнопку "заказать"
-    public void clickBottomOrderButton(){
-        driver.findElement(bottomOrderButton).click();
-    }
-
     public void openUrl() {
         driver.get(mainPageUrl);
+    }
+
+    //Метод выбора кнопки
+    public void clickOrderButton(String location){
+        if (location == "Top"){
+            driver.findElement(topOrderButton).click();
+        } else {
+            driver.findElement(bottomOrderButton).click();
+        }
     }
 
     public void clickCookieButton() {
@@ -63,19 +62,19 @@ public class OrderPage {
     public void setFirstName(String firstName) {
         driver.findElement(firstNameInput).sendKeys(firstName);
     }
-    //Метод для заполнения поля * Фамилия
+    //Метод для заполнения поля Фамилия
     public void setSecondName(String secondName) {
         driver.findElement(secondNameInput).sendKeys(secondName);
     }
-    //Метод для заполнения поля * Адрес
+    //Метод для заполнения поля Адрес
     public void setAddress(String address) {
         driver.findElement(addressInput).sendKeys(address);
     }
-    //Метод для заполнения поля * Метро
+    //Метод для заполнения поля Метро
     public void setMetro(String metro) {
         driver.findElement(metroInput).sendKeys(metro, Keys.ARROW_DOWN, Keys.ENTER);
     }
-    //Метод для заполнения поля * Телефон
+    //Метод для заполнения поля Телефон
     public void setPhoneNumber(String userPhone) {
         driver.findElement(phoneNumberInput).sendKeys(userPhone);
     }
@@ -86,24 +85,38 @@ public class OrderPage {
     public void setOderTime(String date){
         driver.findElement(orderTimeInput).sendKeys(date);
     }
-    public void setRentalPeriodOneDay(){
+    public void setRentalPeriod(int days){
         driver.findElement(rentalPeriodChoice).click();
-        driver.findElement(rentalPeriodOneDay).click();
+        if (days == 1) {
+            driver.findElement(rentalPeriodOneDay).click();
+        } else if (days == 2) {
+            driver.findElement(rentalPeriodTwoDays).click();
+        } else if (days == 3) {
+            driver.findElement(rentalPeriodThreeDays).click();
+        } else if (days == 4) {
+            driver.findElement(rentalPeriodFourDays).click();
+        } else if (days == 5) {
+            driver.findElement(rentalPeriodFiveDays).click();
+        } else if (days == 6) {
+            driver.findElement(rentalPeriodSixDays).click();
+        } else {
+            driver.findElement(rentalPeriodSevenDays).click();
+        }
+
     }
-    public void setRentalPeriodTwoDays(){
-        driver.findElement(rentalPeriodChoice).click();
-        driver.findElement(rentalPeriodTwoDays).click();
+
+    public void chooseScooterColor(String color) {
+        if (color == "Black") {
+            driver.findElement(colorBlack).click();
+        } else {
+            driver.findElement(colorGrey).click();
+        }
     }
-    public void chooseBlackScooter() {
-        driver.findElement(colorBlack).click();
-    }
-    public void chooseGreyScooter() {
-        driver.findElement(colorGrey).click();
-    }
+
     public void setComment(String comment) {
         driver.findElement(commentInput).sendKeys(comment);
     }
-    public void clickOrderButton() {
+    public void clickFinalOrderButton() {
         driver.findElement(orderButton).click();
     }
     public void clickYesButton() {
